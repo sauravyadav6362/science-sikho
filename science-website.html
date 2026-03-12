@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>विज्ञान पाठशाला | Science Paathshala</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Hind:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --card: #111827;
+    --card2: #1a2235;
+    --accent: #00d4ff;
+    --green: #00ff88;
+    --orange: #ff6b35;
+    --purple: #a855f7;
+    --yellow: #fbbf24;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --border: rgba(255,255,255,0.08);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'Hind', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* STARS BACKGROUND */
+  body::before {
+    content:'';
+    position:fixed; inset:0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(0,212,255,0.04) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(168,85,247,0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(0,255,136,0.03) 0%, transparent 40%);
+    pointer-events:none; z-index:0;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top:0; z-index:100;
+    background: rgba(10,14,26,0.9);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex; align-items:center; justify-content:space-between;
+    height: 64px;
+  }
+  .logo {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.5rem; font-weight:800;
+    background: linear-gradient(135deg, var(--accent), var(--green));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo-icon { font-size: 1.8rem; -webkit-text-fill-color: initial; }
+  .nav-links { display:flex; gap:1.5rem; }
+  .nav-links a {
+    color: var(--muted); text-decoration:none; font-size:0.9rem; font-weight:500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-btn {
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    border:none; border-radius:8px; padding: 8px 18px;
+    color: white; font-weight:600; font-size:0.85rem; cursor:pointer;
+    transition: opacity 0.2s;
+  }
+  .nav-btn:hover { opacity:0.85; }
+
+  /* HERO */
+  .hero {
+    position:relative; z-index:1;
+    padding: 80px 2rem 60px;
+    text-align:center;
+  }
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:6px;
+    background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.3);
+    border-radius:20px; padding: 6px 16px; font-size:0.8rem; color:var(--accent);
+    margin-bottom: 1.5rem;
+    animation: fadeDown 0.6s ease;
+  }
+  .hero h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight:800; line-height:1.15;
+    margin-bottom:1rem;
+    animation: fadeUp 0.7s ease;
+  }
+  .hero h1 span {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--purple) 50%, var(--green) 100%);
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .hero p {
+    color: var(--muted); font-size:1.1rem; max-width:560px; margin:0 auto 2.5rem;
+    animation: fadeUp 0.8s ease;
+  }
+  .hero-btns {
+    display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;
+    animation: fadeUp 0.9s ease;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    border:none; border-radius:12px; padding:14px 32px;
+    color:white; font-size:1rem; font-weight:700; cursor:pointer;
+    box-shadow: 0 8px 30px rgba(0,212,255,0.25);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover { transform:translateY(-2px); box-shadow:0 12px 40px rgba(0,212,255,0.35); }
+  .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--border); border-radius:12px; padding:14px 32px;
+    color:var(--text); font-size:1rem; font-weight:600; cursor:pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-secondary:hover { border-color:var(--accent); background:rgba(0,212,255,0.06); }
+
+  /* STATS BAR */
+  .stats-bar {
+    position:relative; z-index:1;
+    display:flex; justify-content:center; gap:3rem; flex-wrap:wrap;
+    padding: 2rem; margin: 0 2rem 3rem;
+    background: var(--card); border-radius:16px;
+    border:1px solid var(--border);
+    max-width: 700px; margin: 0 auto 4rem;
+  }
+  .stat { text-align:center; }
+  .stat-num {
+    font-family:'Baloo 2',cursive; font-size:2rem; font-weight:800;
+    background: linear-gradient(135deg, var(--accent), var(--green));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .stat-label { color:var(--muted); font-size:0.8rem; margin-top:2px; }
+
+  /* SECTION */
+  section { position:relative; z-index:1; padding: 3rem 2rem; max-width:1200px; margin:0 auto; }
+  .section-title {
+    font-family:'Baloo 2',cursive; font-size:1.8rem; font-weight:800;
+    margin-bottom:0.4rem;
+  }
+  .section-sub { color:var(--muted); font-size:0.95rem; margin-bottom:2rem; }
+
+  /* CLASS TABS */
+  .class-tabs {
+    display:flex; gap:0.6rem; flex-wrap:wrap; margin-bottom:2rem;
+  }
+  .tab {
+    padding: 8px 18px; border-radius:8px;
+    border: 1px solid var(--border);
+    background: var(--card); color:var(--muted);
+    cursor:pointer; font-size:0.9rem; font-weight:600;
+    transition: all 0.2s;
+  }
+  .tab.active, .tab:hover {
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    color:white; border-color:transparent;
+  }
+
+  /* CHAPTER GRID */
+  .chapter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.2rem;
+  }
+  .chapter-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.4rem;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    position: relative; overflow: hidden;
+  }
+  .chapter-card::before {
+    content:'';
+    position:absolute; inset:0;
+    background: linear-gradient(135deg, var(--accent), var(--purple));
+    opacity:0; transition: opacity 0.2s;
+  }
+  .chapter-card:hover { transform:translateY(-4px); border-color: var(--accent); box-shadow:0 8px 30px rgba(0,212,255,0.15); }
+  .chapter-card:hover::before { opacity:0.05; }
+  .chapter-card > * { position:relative; z-index:1; }
+  .chapter-icon { font-size:2rem; margin-bottom:0.7rem; }
+  .chapter-name { font-weight:700; font-size:1rem; margin-bottom:0.3rem; }
+  .chapter-meta { color:var(--muted); font-size:0.8rem; margin-bottom:0.8rem; display:flex; gap:0.8rem; }
+  .chapter-tags { display:flex; gap:0.4rem; flex-wrap:wrap; }
+  .tag {
+    font-size:0.7rem; padding:2px 8px; border-radius:4px; font-weight:600;
+  }
+  .tag-video { background:rgba(0,212,255,0.15); color:var(--accent); }
+  .tag-notes { background:rgba(0,255,136,0.12); color:var(--green); }
+  .tag-quiz { background:rgba(255,107,53,0.15); color:var(--orange); }
+
+  /* SUBJECTS */
+  .subject-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+  }
+  .subject-card {
+    background: var(--card);
+    border:1px solid var(--border);
+    border-radius:14px; padding:1.5rem 1rem;
+    text-align:center; cursor:pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .subject-card:hover { transform:translateY(-4px); box-shadow:0 8px 30px rgba(0,0,0,0.3); }
+  .subject-icon { font-size:2.5rem; margin-bottom:0.7rem; }
+  .subject-name { font-weight:700; font-size:0.95rem; }
+  .subject-count { color:var(--muted); font-size:0.8rem; margin-top:0.2rem; }
+
+  /* VIDEO SECTION */
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.2rem;
+  }
+  .video-card {
+    background: var(--card); border:1px solid var(--border);
+    border-radius:14px; overflow:hidden; cursor:pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .video-card:hover { transform:translateY(-4px); box-shadow:0 8px 30px rgba(0,0,0,0.3); }
+  .video-thumb {
+    height: 150px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:3rem; position:relative;
+  }
+  .play-btn {
+    position:absolute;
+    width:52px; height:52px; border-radius:50%;
+    background: rgba(0,212,255,0.9);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.3rem;
+    box-shadow: 0 0 20px rgba(0,212,255,0.5);
+    transition: transform 0.2s;
+  }
+  .video-card:hover .play-btn { transform:scale(1.1); }
+  .video-info { padding: 1rem; }
+  .video-title { font-weight:700; font-size:0.95rem; margin-bottom:0.4rem; }
+  .video-meta { color:var(--muted); font-size:0.78rem; display:flex; gap:0.8rem; }
+
+  /* NOTES SECTION */
+  .notes-list { display:flex; flex-direction:column; gap:0.8rem; }
+  .note-item {
+    background:var(--card); border:1px solid var(--border);
+    border-radius:12px; padding:1.2rem 1.4rem;
+    display:flex; align-items:center; gap:1rem; cursor:pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .note-item:hover { border-color:var(--green); background: rgba(0,255,136,0.04); }
+  .note-icon { font-size:1.8rem; flex-shrink:0; }
+  .note-info { flex:1; }
+  .note-name { font-weight:700; font-size:0.95rem; }
+  .note-meta { color:var(--muted); font-size:0.78rem; margin-top:2px; }
+  .note-download {
+    background: rgba(0,255,136,0.12); color:var(--green);
+    border:1px solid rgba(0,255,136,0.3);
+    border-radius:8px; padding:6px 14px;
+    font-size:0.8rem; font-weight:700; cursor:pointer;
+    transition: background 0.2s;
+  }
+  .note-download:hover { background: rgba(0,255,136,0.2); }
+
+  /* MODAL */
+  .modal-overlay {
+    display:none; position:fixed; inset:0; z-index:200;
+    background: rgba(0,0,0,0.85); backdrop-filter:blur(10px);
+    align-items:center; justify-content:center; padding:1rem;
+  }
+  .modal-overlay.open { display:flex; }
+  .modal {
+    background: var(--card2); border:1px solid var(--border);
+    border-radius:20px; max-width:700px; width:100%;
+    max-height:90vh; overflow-y:auto;
+    animation: modalIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  .modal-header {
+    padding:1.5rem 1.5rem 1rem;
+    display:flex; justify-content:space-between; align-items:flex-start;
+    border-bottom:1px solid var(--border);
+  }
+  .modal-title { font-family:'Baloo 2',cursive; font-size:1.4rem; font-weight:800; }
+  .modal-close {
+    background:rgba(255,255,255,0.08); border:none; border-radius:8px;
+    width:36px; height:36px; cursor:pointer; color:var(--text); font-size:1.1rem;
+    transition: background 0.2s;
+  }
+  .modal-close:hover { background:rgba(255,255,255,0.15); }
+  .modal-body { padding:1.5rem; }
+  .concept-box {
+    background: rgba(0,212,255,0.06); border:1px solid rgba(0,212,255,0.2);
+    border-radius:12px; padding:1.2rem; margin-bottom:1rem;
+  }
+  .concept-box h4 { color:var(--accent); font-size:1rem; margin-bottom:0.5rem; }
+  .concept-box p { color:var(--text); font-size:0.9rem; line-height:1.7; }
+  .key-points { list-style:none; padding:0; }
+  .key-points li {
+    padding: 0.5rem 0; border-bottom: 1px solid var(--border);
+    font-size:0.9rem; display:flex; gap:0.5rem; align-items:flex-start;
+  }
+  .key-points li::before { content:'⚡'; flex-shrink:0; }
+  .key-points li:last-child { border-bottom:none; }
+
+  /* FOOTER */
+  footer {
+    position:relative; z-index:1;
+    background: var(--card); border-top:1px solid var(--border);
+    padding: 3rem 2rem 2rem; margin-top:4rem;
+    text-align:center;
+  }
+  footer .footer-logo {
+    font-family:'Baloo 2',cursive; font-size:1.6rem; font-weight:800;
+    background: linear-gradient(135deg, var(--accent), var(--green));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    margin-bottom:0.5rem;
+  }
+  footer p { color:var(--muted); font-size:0.85rem; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes modalIn { from { opacity:0; transform:scale(0.85); } to { opacity:1; transform:scale(1); } }
+
+  /* DIVIDER */
+  .section-divider { height:1px; background:var(--border); margin:0 2rem; }
+
+  /* RESPONSIVE */
+  @media(max-width:600px) {
+    .nav-links { display:none; }
+    .stats-bar { gap:1.5rem; }
+    .hero h1 { font-size:2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo"><span class="logo-icon">🔬</span> विज्ञान पाठशाला</div>
+  <div class="nav-links">
+    <a href="#classes">Classes</a>
+    <a href="#videos">Videos</a>
+    <a href="#notes">Notes</a>
+    <a href="#quiz">Quiz</a>
+  </div>
+  <button class="nav-btn">📱 App Download</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🇮🇳 Hindi + English Medium · NCERT Based</div>
+  <h1>Science सीखो<br><span>आसान भाषा में!</span></h1>
+  <p>Class 6 से 12 तक का पूरा विज्ञान — Videos, Notes, और Basic Concepts — एक ही जगह पर, बिल्कुल Free!</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="scrollToSection('classes')">📚 अभी पढ़ो</button>
+    <button class="btn-secondary" onclick="scrollToSection('videos')">▶️ Videos देखो</button>
+  </div>
+</div>
+
+<!-- STATS -->
+<div style="position:relative;z-index:1;padding:0 2rem;margin-bottom:4rem;">
+<div class="stats-bar">
+  <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Video Lectures</div></div>
+  <div class="stat"><div class="stat-num">7</div><div class="stat-label">Classes (6–12)</div></div>
+  <div class="stat"><div class="stat-num">300+</div><div class="stat-label">PDF Notes</div></div>
+  <div class="stat"><div class="stat-num">1000+</div><div class="stat-label">Practice Questions</div></div>
+</div>
+</div>
+
+<!-- CLASSES SECTION -->
+<section id="classes">
+  <div class="section-title">📖 Class चुनो</div>
+  <div class="section-sub">NCERT पर आधारित — सभी topics covered</div>
+  
+  <!-- CLASS TABS -->
+  <div class="class-tabs" id="classTabs">
+    <div class="tab active" onclick="showClass(6, this)">Class 6</div>
+    <div class="tab" onclick="showClass(7, this)">Class 7</div>
+    <div class="tab" onclick="showClass(8, this)">Class 8</div>
+    <div class="tab" onclick="showClass(9, this)">Class 9</div>
+    <div class="tab" onclick="showClass(10, this)">Class 10</div>
+    <div class="tab" onclick="showClass(11, this)">Class 11</div>
+    <div class="tab" onclick="showClass(12, this)">Class 12</div>
+  </div>
+
+  <!-- SUBJECT CARDS -->
+  <div id="subjectArea">
+    <div class="subject-cards" id="subjectCards"></div>
+  </div>
+
+  <!-- CHAPTERS -->
+  <div id="chaptersArea" style="margin-top:2rem; display:none;">
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.2rem;">
+      <button onclick="document.getElementById('chaptersArea').style.display='none';document.getElementById('subjectArea').style.display='block';" 
+        style="background:transparent;border:1px solid var(--border);border-radius:8px;padding:6px 14px;color:var(--muted);cursor:pointer;font-size:0.85rem;">← वापस जाओ</button>
+      <div class="section-title" id="chaptersTitle" style="margin:0;font-size:1.3rem;"></div>
+    </div>
+    <div class="chapter-grid" id="chapterGrid"></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- VIDEOS SECTION -->
+<section id="videos">
+  <div class="section-title">▶️ Video Lectures</div>
+  <div class="section-sub">Expert teachers द्वारा आसान explanation</div>
+  <div class="video-grid" id="videoGrid"></div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- NOTES SECTION -->
+<section id="notes">
+  <div class="section-title">📄 Study Notes & PDF</div>
+  <div class="section-sub">Download करो और offline पढ़ो</div>
+  <div class="notes-list" id="notesList"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">🔬 विज्ञान पाठशाला</div>
+  <p>NCERT Science · Class 6 to 12 · Hindi & English Medium</p>
+  <p style="margin-top:0.5rem;">Made with ❤️ for students of India 🇮🇳</p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modalTitle"></div>
+        <div style="color:var(--muted);font-size:0.85rem;margin-top:4px;" id="modalSubtitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const data = {
+  6: {
+    subjects: [
+      { icon:'🌿', name:'जीव विज्ञान', eng:'Biology', count:'6 Chapters', color:'#00ff88' },
+      { icon:'⚗️', name:'रसायन विज्ञान', eng:'Chemistry', count:'4 Chapters', color:'#00d4ff' },
+      { icon:'⚡', name:'भौतिक विज्ञान', eng:'Physics', count:'5 Chapters', color:'#a855f7' },
+    ],
+    chapters: {
+      Biology: [
+        { icon:'🌱', name:'भोजन: यह कहाँ से आता है?', meta:'Chapter 1 · 3 Videos', concept:'Plants and animals as sources of food', points:['Plants make food through photosynthesis','Herbivores eat plants, carnivores eat animals','Omnivores eat both plants and animals','Food chain shows energy flow'] },
+        { icon:'🥗', name:'भोजन के घटक', meta:'Chapter 2 · 4 Videos', concept:'Nutrients in food', points:['Carbohydrates give energy (rice, bread)','Proteins build muscles (dal, eggs)','Fats store energy (oil, ghee)','Vitamins and minerals protect us from diseases'] },
+        { icon:'🌾', name:'तंतु से वस्त्र तक', meta:'Chapter 3 · 3 Videos', concept:'Natural and synthetic fibers', points:['Cotton comes from cotton plant','Silk comes from silkworm','Wool comes from sheep','Synthetic fibers are made from chemicals'] },
+        { icon:'🌍', name:'वस्तुओं के समूह बनाना', meta:'Chapter 4 · 2 Videos', concept:'Classification of materials', points:['Materials can be hard or soft','Some materials are transparent','Soluble materials dissolve in water','Materials can conduct heat or electricity'] },
+      ],
+      Chemistry: [
+        { icon:'💧', name:'पदार्थों का पृथक्करण', meta:'Chapter 5 · 4 Videos', concept:'Methods of separating mixtures', points:['Handpicking removes large particles','Sieving separates different sized particles','Filtration separates insoluble solids from liquid','Evaporation separates dissolved solid from liquid'] },
+        { icon:'🔄', name:'परिवर्तन के आसपास', meta:'Chapter 6 · 3 Videos', concept:'Reversible and irreversible changes', points:['Melting ice is reversible','Burning paper is irreversible','Chemical changes make new substances','Physical changes are mostly reversible'] },
+      ],
+      Physics: [
+        { icon:'💡', name:'विद्युत और परिपथ', meta:'Chapter 12 · 5 Videos', concept:'Electric circuit basics', points:['Electric current flows in a closed circuit','Cell provides electric energy','Bulb converts electrical energy to light','Switch opens or closes the circuit'] },
+        { icon:'🧲', name:'चुंबक', meta:'Chapter 13 · 4 Videos', concept:'Properties of magnets', points:['Magnets attract iron objects','Every magnet has North and South pole','Like poles repel, unlike poles attract','Earth acts as a giant magnet'] },
+      ],
+    }
+  },
+  7: {
+    subjects: [
+      { icon:'🌿', name:'जीव विज्ञान', eng:'Biology', count:'8 Chapters', color:'#00ff88' },
+      { icon:'⚗️', name:'रसायन विज्ञान', eng:'Chemistry', count:'6 Chapters', color:'#00d4ff' },
+      { icon:'⚡', name:'भौतिक विज्ञान', eng:'Physics', count:'5 Chapters', color:'#a855f7' },
+    ],
+    chapters: {
+      Biology: [
+        { icon:'🌱', name:'पोषण: पादपों में', meta:'Chapter 1 · 4 Videos', concept:'How plants make food', points:['Photosynthesis: 6CO₂ + 6H₂O → Glucose + O₂','Chlorophyll captures sunlight','Stomata take in CO₂','Roots absorb water from soil'] },
+        { icon:'🦠', name:'पोषण: जंतुओं में', meta:'Chapter 2 · 3 Videos', concept:'Nutrition in animals', points:['Digestion breaks down food','Stomach produces acids','Small intestine absorbs nutrients','Large intestine absorbs water'] },
+      ],
+      Chemistry: [
+        { icon:'🌡️', name:'ऊष्मा', meta:'Chapter 4 · 5 Videos', concept:'Transfer of heat', points:['Conduction in solids','Convection in liquids and gases','Radiation does not need medium','Good conductors transfer heat easily'] },
+        { icon:'⚗️', name:'अम्ल, क्षारक और लवण', meta:'Chapter 5 · 4 Videos', concept:'Acids and bases', points:['Acids taste sour (lemon, vinegar)','Bases taste bitter (soap)','Neutral substances: pH = 7','Indicators show acid/base nature'] },
+      ],
+      Physics: [
+        { icon:'🔦', name:'प्रकाश', meta:'Chapter 15 · 6 Videos', concept:'Light and its properties', points:['Light travels in straight lines','Reflection: angle of incidence = angle of reflection','Plane mirror forms virtual image','Concave and convex mirrors have different uses'] },
+      ],
+    }
+  },
+  9: {
+    subjects: [
+      { icon:'🌿', name:'जीव विज्ञान', eng:'Biology', count:'5 Chapters', color:'#00ff88' },
+      { icon:'⚗️', name:'रसायन विज्ञान', eng:'Chemistry', count:'5 Chapters', color:'#00d4ff' },
+      { icon:'⚡', name:'भौतिक विज्ञान', eng:'Physics', count:'5 Chapters', color:'#a855f7' },
+    ],
+    chapters: {
+      Biology: [
+        { icon:'🧫', name:'जीवन की मूल इकाई (कोशिका)', meta:'Chapter 5 · 5 Videos', concept:'Cell: the basic unit of life', points:['Cell theory: all life is made of cells','Plant cell has cell wall, animal cell does not','Nucleus controls all cell activities','Mitochondria: powerhouse of cell'] },
+        { icon:'🧬', name:'ऊतक', meta:'Chapter 6 · 4 Videos', concept:'Types of tissues', points:['Meristematic tissue: divides rapidly','Permanent tissue: stopped dividing','Muscle tissue: enables movement','Nervous tissue: carries signals'] },
+      ],
+      Chemistry: [
+        { icon:'⚛️', name:'परमाणु की संरचना', meta:'Chapter 4 · 6 Videos', concept:'Structure of atom', points:['Proton: +charge, in nucleus','Neutron: no charge, in nucleus','Electron: -charge, outside nucleus','Atomic number = number of protons'] },
+        { icon:'🧪', name:'हम बीमार क्यों होते हैं?', meta:'Chapter 13 · 3 Videos', concept:'Causes of disease', points:['Bacteria, virus, fungi cause disease','Vaccines create immunity','Antibiotics fight bacterial infections','Healthy diet prevents many diseases'] },
+      ],
+      Physics: [
+        { icon:'🚀', name:'गति', meta:'Chapter 8 · 7 Videos', concept:'Motion and its types', points:['Uniform motion: equal distance in equal time','Non-uniform motion: unequal distance','v = u + at (First equation of motion)','s = ut + ½at² (Second equation)'] },
+        { icon:'🌊', name:'गुरुत्वाकर्षण', meta:'Chapter 10 · 5 Videos', concept:'Universal gravitation', points:['Every object attracts every other object','F = Gm₁m₂/r²','g = 9.8 m/s² on Earth surface','Weight = mass × g'] },
+      ],
+    }
+  },
+  10: {
+    subjects: [
+      { icon:'🌿', name:'जीव विज्ञान', eng:'Biology', count:'6 Chapters', color:'#00ff88' },
+      { icon:'⚗️', name:'रसायन विज्ञान', eng:'Chemistry', count:'6 Chapters', color:'#00d4ff' },
+      { icon:'⚡', name:'भौतिक विज्ञान', eng:'Physics', count:'5 Chapters', color:'#a855f7' },
+    ],
+    chapters: {
+      Biology: [
+        { icon:'🌱', name:'जैव प्रक्रम', meta:'Chapter 6 · 8 Videos', concept:'Life processes', points:['Nutrition: autotrophs make food, heterotrophs eat others','Respiration: C₆H₁₂O₆ + O₂ → CO₂ + H₂O + Energy','Transportation: blood carries nutrients','Excretion: removal of waste'] },
+        { icon:'🧬', name:'आनुवंशिकता', meta:'Chapter 9 · 5 Videos', concept:'Heredity and evolution', points:['Mendel: father of genetics','Dominant and recessive traits','DNA carries genetic information','Natural selection drives evolution'] },
+      ],
+      Chemistry: [
+        { icon:'⚗️', name:'रासायनिक अभिक्रियाएँ', meta:'Chapter 1 · 6 Videos', concept:'Chemical reactions and equations', points:['Combination: A + B → AB','Decomposition: AB → A + B','Displacement: A + BC → AC + B','Balance equations: mass is conserved'] },
+        { icon:'🧪', name:'अम्ल, क्षारक और लवण', meta:'Chapter 2 · 5 Videos', concept:'Acids, bases and salts', points:['pH scale: 0-14, 7 is neutral','Strong acid: pH < 2','NaOH is a strong base','Neutralisation: acid + base → salt + water'] },
+        { icon:'💎', name:'धातु और अधातु', meta:'Chapter 3 · 5 Videos', concept:'Metals and non-metals', points:['Metals: lustrous, malleable, conduct electricity','Non-metals: brittle, poor conductors','Reactivity series of metals','Ionic bonds in metal compounds'] },
+      ],
+      Physics: [
+        { icon:'🔌', name:'विद्युत', meta:'Chapter 12 · 8 Videos', concept:'Electric circuits and Ohm\'s law', points:['V = IR (Ohm\'s Law)','Series circuit: same current, different voltage','Parallel circuit: same voltage, different current','P = VI (Electric Power)'] },
+        { icon:'🔭', name:'प्रकाश का परावर्तन', meta:'Chapter 10 · 6 Videos', concept:'Reflection and refraction', points:['Concave mirror: converges light','Convex mirror: diverges light (used in vehicles)','Snell\'s Law: n₁sinθ₁ = n₂sinθ₂','Lens formula: 1/v - 1/u = 1/f'] },
+      ],
+    }
+  },
+  11: {
+    subjects: [
+      { icon:'🌿', name:'जीव विज्ञान', eng:'Biology', count:'22 Chapters', color:'#00ff88' },
+      { icon:'⚗️', name:'रसायन विज्ञान', eng:'Chemistry', count:'14 Chapters', color:'#00d4ff' },
+      { icon:'⚡', name:'भौतिक विज्ञान', eng:'Physics', count:'15 Chapters', color:'#a855f7' },
+    ],
+    chapters: {
+      Physics: [
+        { icon:'📏', name:'भौतिक जगत और मापन', meta:'Chapter 1-2 · 6 Videos', concept:'Units and measurement', points:['SI units: meter, kg, second, ampere','Dimensional analysis','Significant figures in measurement','Errors: systematic and random'] },
+        { icon:'⚡', name:'गति के नियम', meta:'Chapter 5 · 8 Videos', concept:'Newton\'s laws of motion', points:['1st Law: object continues in state of rest/motion','2nd Law: F = ma','3rd Law: every action has equal and opposite reaction','Conservation of momentum'] },
+        { icon:'🌊', name:'तरंग गति', meta:'Chapter 15 · 6 Videos', concept:'Waves and sound', points:['Transverse waves: oscillation ⊥ propagation','Longitudinal waves: oscillation || propagation','v = fλ (wave equation)','Doppler effect: frequency change with motion'] },
+      ],
+      Chemistry: [
+        { icon:'⚛️', name:'परमाणु संरचना', meta:'Chapter 2 · 8 Videos', concept:'Advanced atomic structure', points:['Bohr\'s model: electrons in fixed orbits','Quantum numbers: n, l, m, s','Aufbau principle, Hund\'s rule, Pauli exclusion','Electronic configuration of elements'] },
+        { icon:'🔗', name:'रासायनिक बंधन', meta:'Chapter 4 · 7 Videos', concept:'Chemical bonding', points:['Ionic bond: transfer of electrons','Covalent bond: sharing of electrons','Hydrogen bond: between H and N,O,F','VSEPR theory predicts molecular shape'] },
+      ],
+      Biology: [
+        { icon:'🧬', name:'कोशिका: जीवन की इकाई', meta:'Chapter 8 · 6 Videos', concept:'Cell biology', points:['Prokaryotic cells: no nucleus (bacteria)','Eukaryotic cells: have nucleus (plants, animals)','Cell organelles and their functions','Cell membrane: selectively permeable'] },
+        { icon:'🌱', name:'पादप जगत', meta:'Chapter 3 · 5 Videos', concept:'Kingdom Plantae', points:['Algae: simplest plants','Bryophytes: mosses','Pteridophytes: ferns','Gymnosperms and Angiosperms: seed plants'] },
+      ],
+    }
+  },
+  12: {
+    subjects: [
+      { icon:'🌿', name:'जीव विज्ञान', eng:'Biology', count:'16 Chapters', color:'#00ff88' },
+      { icon:'⚗️', name:'रसायन विज्ञान', eng:'Chemistry', count:'16 Chapters', color:'#00d4ff' },
+      { icon:'⚡', name:'भौतिक विज्ञान', eng:'Physics', count:'14 Chapters', color:'#a855f7' },
+    ],
+    chapters: {
+      Physics: [
+        { icon:'⚡', name:'स्थिर वैद्युतिकी', meta:'Chapter 1 · 8 Videos', concept:'Electrostatics', points:['Coulomb\'s Law: F = kq₁q₂/r²','Electric field E = F/q','Electric potential V = kq/r','Capacitance C = Q/V'] },
+        { icon:'🔮', name:'विद्युत चुम्बकीय तरंगें', meta:'Chapter 8 · 5 Videos', concept:'EM waves spectrum', points:['Radio waves → Microwaves → IR → Visible → UV → X-rays → Gamma','All travel at speed of light (3×10⁸ m/s)','EM waves are transverse','Maxwell predicted EM waves'] },
+        { icon:'⚛️', name:'नाभिक और परमाणु', meta:'Chapter 12-13 · 7 Videos', concept:'Nuclear physics', points:['Radioactivity: alpha, beta, gamma decay','E = mc² (mass-energy equivalence)','Nuclear fission: heavy nucleus splits','Nuclear fusion: light nuclei combine'] },
+      ],
+      Chemistry: [
+        { icon:'🔬', name:'ठोस अवस्था', meta:'Chapter 1 · 5 Videos', concept:'States of matter', points:['Crystalline solids: regular arrangement','Amorphous solids: irregular arrangement','Unit cell types: simple, BCC, FCC','Packing efficiency varies by structure'] },
+        { icon:'⚗️', name:'रासायनिक बलगतिकी', meta:'Chapter 4 · 6 Videos', concept:'Chemical kinetics', points:['Rate of reaction: change in concentration/time','Rate law: r = k[A]ⁿ[B]ᵐ','Activation energy: minimum energy needed','Catalyst lowers activation energy'] },
+      ],
+      Biology: [
+        { icon:'🧬', name:'वंशागति और विविधता', meta:'Chapter 5 · 8 Videos', concept:'Genetics', points:['Mendelian inheritance: dominant/recessive','Monohybrid ratio: 3:1','Dihybrid ratio: 9:3:3:1','Chromosomal theory of inheritance'] },
+        { icon:'🦠', name:'जैव प्रौद्योगिकी', meta:'Chapter 11 · 6 Videos', concept:'Biotechnology', points:['Recombinant DNA technology','PCR amplifies DNA','Gel electrophoresis separates DNA','Applications: insulin, vaccines, GMO crops'] },
+      ],
+    }
+  },
+};
+
+// Fill in missing classes
+[7,8].forEach(c => { if(!data[c]) data[c] = data[7] || data[6]; });
+data[8] = JSON.parse(JSON.stringify(data[7]));
+
+const videos = [
+  { bg:'linear-gradient(135deg,#0a0e1a 0%,#1a3a4a 100%)', emoji:'⚡', title:'विद्युत धारा और ओम का नियम', meta:'Class 10 · Physics · 18 min', class:10 },
+  { bg:'linear-gradient(135deg,#0a1a0a 0%,#1a3a1a 100%)', emoji:'🧬', title:'DNA की संरचना और कार्य', meta:'Class 12 · Biology · 22 min', class:12 },
+  { bg:'linear-gradient(135deg,#1a0a2a 0%,#2a1a4a 100%)', emoji:'⚛️', title:'परमाणु का बोर मॉडल', meta:'Class 11 · Chemistry · 15 min', class:11 },
+  { bg:'linear-gradient(135deg,#1a1a0a 0%,#3a3a0a 100%)', emoji:'🌱', title:'प्रकाश संश्लेषण कैसे होता है?', meta:'Class 7 · Biology · 12 min', class:7 },
+  { bg:'linear-gradient(135deg,#0a1a1a 0%,#0a2a3a 100%)', emoji:'🔭', title:'प्रकाश का परावर्तन और अपवर्तन', meta:'Class 10 · Physics · 20 min', class:10 },
+  { bg:'linear-gradient(135deg,#1a0a0a 0%,#3a1a1a 100%)', emoji:'🧪', title:'अम्ल-क्षार अभिक्रिया और pH', meta:'Class 10 · Chemistry · 16 min', class:10 },
+];
+
+const notes = [
+  { icon:'📗', name:'Class 6 - पूरा विज्ञान नोट्स', meta:'PDF · 45 pages · Hindi Medium', size:'2.3 MB' },
+  { icon:'📘', name:'Class 9 - भौतिक विज्ञान फ़ॉर्मूला शीट', meta:'PDF · 12 pages · Formula Based', size:'890 KB' },
+  { icon:'📙', name:'Class 10 - रसायन विज्ञान समीकरण', meta:'PDF · 30 pages · All Equations', size:'1.5 MB' },
+  { icon:'📕', name:'Class 11 - भौतिकी चैप्टरवाइज़ नोट्स', meta:'PDF · 120 pages · Detailed', size:'5.2 MB' },
+  { icon:'📓', name:'Class 12 - जीव विज्ञान Diagrams', meta:'PDF · 60 pages · All Diagrams', size:'3.8 MB' },
+  { icon:'📔', name:'Class 12 - Chemistry Reactions Summary', meta:'PDF · 25 pages · Quick Revision', size:'1.2 MB' },
+];
+
+let currentClass = 6;
+let currentSubject = null;
+
+function showClass(cls, el) {
+  currentClass = cls;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderSubjects(cls);
+  document.getElementById('chaptersArea').style.display = 'none';
+  document.getElementById('subjectArea').style.display = 'block';
+}
+
+function renderSubjects(cls) {
+  const d = data[cls] || data[6];
+  const container = document.getElementById('subjectCards');
+  container.innerHTML = d.subjects.map(s => `
+    <div class="subject-card" onclick="showChapters(${cls}, '${s.eng}')" style="border-color:${s.color}22;">
+      <div class="subject-icon">${s.icon}</div>
+      <div class="subject-name">${s.name}</div>
+      <div style="font-size:0.75rem;color:${s.color};font-weight:600;">${s.eng}</div>
+      <div class="subject-count">${s.count}</div>
+    </div>
+  `).join('');
+}
+
+function showChapters(cls, subject) {
+  const d = data[cls] || data[6];
+  const chapters = d.chapters[subject] || [];
+  document.getElementById('chaptersTitle').textContent = `Class ${cls} · ${subject}`;
+  document.getElementById('subjectArea').style.display = 'none';
+  document.getElementById('chaptersArea').style.display = 'block';
+  
+  document.getElementById('chapterGrid').innerHTML = chapters.map(ch => `
+    <div class="chapter-card" onclick='openChapterModal(${JSON.stringify(ch).replace(/'/g,"&#39;")}, ${cls}, "${subject}")'>
+      <div class="chapter-icon">${ch.icon}</div>
+      <div class="chapter-name">${ch.name}</div>
+      <div class="chapter-meta"><span>📺 ${ch.meta}</span></div>
+      <div class="chapter-tags">
+        <span class="tag tag-video">▶ Video</span>
+        <span class="tag tag-notes">📄 Notes</span>
+        <span class="tag tag-quiz">❓ Quiz</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openChapterModal(ch, cls, subject) {
+  document.getElementById('modalTitle').textContent = ch.name;
+  document.getElementById('modalSubtitle').textContent = `Class ${cls} · ${subject} · ${ch.meta}`;
+  document.getElementById('modalBody').innerHTML = `
+    <div class="concept-box">
+      <h4>📌 मुख्य अवधारणा (Main Concept)</h4>
+      <p>${ch.concept}</p>
+    </div>
+    <div style="margin-bottom:1rem;">
+      <h4 style="margin-bottom:0.7rem;font-size:1rem;">⚡ Key Points याद करो:</h4>
+      <ul class="key-points">${ch.points.map(p => `<li>${p}</li>`).join('')}</ul>
+    </div>
+    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;margin-top:1.2rem;">
+      <button class="btn-primary" style="font-size:0.9rem;padding:10px 20px;" onclick="alert('Video player coming soon! 🎬')">▶️ Video देखो</button>
+      <button class="btn-secondary" style="font-size:0.9rem;padding:10px 20px;" onclick="alert('Notes download होगा! 📄')">📄 Notes Download</button>
+      <button style="background:rgba(255,107,53,0.15);color:#ff6b35;border:1px solid rgba(255,107,53,0.3);border-radius:12px;padding:10px 20px;font-size:0.9rem;cursor:pointer;" onclick="alert('Quiz starting! ❓')">❓ Quiz लो</button>
+    </div>
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(e) {
+  if(e.target === document.getElementById('modalOverlay')) closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+// Render videos
+document.getElementById('videoGrid').innerHTML = videos.map(v => `
+  <div class="video-card" onclick="alert('Video player: ${v.title} 🎬')">
+    <div class="video-thumb" style="background:${v.bg};">
+      <span style="font-size:4rem;">${v.emoji}</span>
+      <div class="play-btn">▶</div>
+    </div>
+    <div class="video-info">
+      <div class="video-title">${v.title}</div>
+      <div class="video-meta"><span>📚 ${v.meta}</span></div>
+    </div>
+  </div>
+`).join('');
+
+// Render notes
+document.getElementById('notesList').innerHTML = notes.map(n => `
+  <div class="note-item">
+    <div class="note-icon">${n.icon}</div>
+    <div class="note-info">
+      <div class="note-name">${n.name}</div>
+      <div class="note-meta">${n.meta} · ${n.size}</div>
+    </div>
+    <button class="note-download" onclick="alert('Download शुरू! 📥')">⬇ Download</button>
+  </div>
+`).join('');
+
+// Init
+renderSubjects(6);
+
+function scrollToSection(id) {
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+</script>
+</body>
+</html>
